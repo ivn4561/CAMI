@@ -1,4 +1,4 @@
-import { Flame, Users } from 'lucide-react'
+import { Cherry, Flame, Users } from 'lucide-react'
 
 // ── Shared styles ──────────────────────────────────────────
 const GOLD = '#C9A052'
@@ -44,7 +44,7 @@ const FLAVORS = [
 // ── Features data ──────────────────────────────────────────
 const FEATURES = [
   {
-    icon: <span style={{ fontSize: '32px', lineHeight: 1 }}>🍍</span>,
+    icon: <Cherry size={32} color={GOLD} strokeWidth={1.5} />,
     title: 'FRUIT HEADS',
     sub: 'Pineapple / Orange Bowls',
   },
