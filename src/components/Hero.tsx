@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { ChevronDown } from 'lucide-react'
+import { ChevronDown, Phone } from 'lucide-react'
 
 const fadeUp = (delay: number) => ({
   initial: { opacity: 0, y: 24 },
@@ -12,6 +12,10 @@ const fadeIn = (delay: number) => ({
   animate: { opacity: 1 },
   transition: { duration: 0.7, delay },
 })
+
+function scrollToNext() {
+  window.scrollBy({ top: window.innerHeight, behavior: 'smooth' })
+}
 
 export default function Hero() {
   return (
@@ -28,7 +32,7 @@ export default function Hero() {
         backgroundColor: '#080808',
       }}
     >
-      {/* ── Layer 1: Radial gold gradient background ── */}
+      {/* ── Radial gold gradient base ── */}
       <div
         aria-hidden="true"
         style={{
@@ -37,53 +41,75 @@ export default function Hero() {
           background:
             'radial-gradient(ellipse 60% 50% at 50% 50%, rgba(201,160,82,0.08) 0%, transparent 70%)',
           pointerEvents: 'none',
+          zIndex: 0,
         }}
       />
 
-      {/* ── Layer 2: Smoke effects ── */}
-      {/* Smoke Left */}
+      {/* ── Atmosphere Layer 1: Magenta glow left ── */}
       <div
         aria-hidden="true"
-        className="smoke-left"
+        className="glow-left"
         style={{
           position: 'absolute',
-          left: '-80px',
-          top: '20%',
-          width: '420px',
-          height: '520px',
+          left: '-100px',
+          top: '30%',
+          width: '500px',
+          height: '500px',
           borderRadius: '50%',
           background:
-            'radial-gradient(ellipse, rgba(212,0,110,0.18) 0%, transparent 70%)',
+            'radial-gradient(circle, rgba(212,0,110,0.15) 0%, transparent 70%)',
           filter: 'blur(60px)',
           pointerEvents: 'none',
-        }}
-      />
-      {/* Smoke Right */}
-      <div
-        aria-hidden="true"
-        className="smoke-right"
-        style={{
-          position: 'absolute',
-          right: '-80px',
-          bottom: '15%',
-          width: '380px',
-          height: '480px',
-          borderRadius: '50%',
-          background:
-            'radial-gradient(ellipse, rgba(212,0,110,0.15) 0%, transparent 70%)',
-          filter: 'blur(70px)',
-          pointerEvents: 'none',
+          zIndex: 0,
         }}
       />
 
-      {/* ── Layer 3: Art Deco ornamental border ── */}
+      {/* ── Atmosphere Layer 2: Magenta glow right ── */}
+      <div
+        aria-hidden="true"
+        className="glow-right"
+        style={{
+          position: 'absolute',
+          right: '-100px',
+          top: '50%',
+          width: '500px',
+          height: '500px',
+          borderRadius: '50%',
+          background:
+            'radial-gradient(circle, rgba(212,0,110,0.15) 0%, transparent 70%)',
+          filter: 'blur(60px)',
+          pointerEvents: 'none',
+          zIndex: 0,
+        }}
+      />
+
+      {/* ── Atmosphere Layer 3: Gold glow center-bottom ── */}
+      <div
+        aria-hidden="true"
+        style={{
+          position: 'absolute',
+          bottom: 0,
+          left: '50%',
+          transform: 'translateX(-50%)',
+          width: '600px',
+          height: '300px',
+          background:
+            'radial-gradient(circle, rgba(201,160,82,0.08) 0%, transparent 70%)',
+          filter: 'blur(80px)',
+          pointerEvents: 'none',
+          zIndex: 0,
+        }}
+      />
+
+      {/* ── Art Deco ornamental border ── */}
       <div
         aria-hidden="true"
         style={{
           position: 'absolute',
           inset: '20px',
+          border: '1px solid rgba(201,160,82,0.2)',
           pointerEvents: 'none',
-          border: '1px solid rgba(201,160,82,0.3)',
+          zIndex: 5,
         }}
       />
       {/* Corner accents */}
@@ -92,7 +118,7 @@ export default function Hero() {
         { top: '20px', right: '20px', borderTop: '2px solid #C9A052', borderRight: '2px solid #C9A052' },
         { bottom: '20px', left: '20px', borderBottom: '2px solid #C9A052', borderLeft: '2px solid #C9A052' },
         { bottom: '20px', right: '20px', borderBottom: '2px solid #C9A052', borderRight: '2px solid #C9A052' },
-      ].map((style, i) => (
+      ].map((s, i) => (
         <div
           key={i}
           aria-hidden="true"
@@ -101,12 +127,13 @@ export default function Hero() {
             width: '40px',
             height: '40px',
             pointerEvents: 'none',
-            ...style,
+            zIndex: 5,
+            ...s,
           }}
         />
       ))}
 
-      {/* ── Layer 4: Central content ── */}
+      {/* ── Central content ── */}
       <div
         style={{
           position: 'relative',
@@ -117,10 +144,9 @@ export default function Hero() {
           textAlign: 'center',
           maxWidth: '700px',
           padding: '0 24px',
-          gap: '0',
         }}
       >
-        {/* a. Badge */}
+        {/* Badge */}
         <motion.div
           {...fadeIn(0.2)}
           style={{
@@ -146,33 +172,21 @@ export default function Hero() {
           <div style={{ height: '1px', width: '48px', background: '#C9A052', opacity: 0.6 }} />
         </motion.div>
 
-        {/* b. Logo placeholder */}
-        <motion.div
-          {...fadeIn(0.4)}
-          style={{
-            width: '180px',
-            height: '60px',
-            border: '1px solid #C9A052',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            marginBottom: '36px',
-          }}
-        >
-          <span
+        {/* Logo real */}
+        <motion.div {...fadeIn(0.4)} style={{ marginBottom: '32px' }}>
+          <img
+            src="/Logo.png"
+            alt="CAMI by Black Romeo"
+            className="logo-pulse"
             style={{
-              fontFamily: "'Cormorant Garamond', serif",
-              fontSize: '14px',
-              fontWeight: 700,
-              color: '#C9A052',
-              letterSpacing: '0.12em',
+              width: 'clamp(160px, 20vw, 220px)',
+              display: 'block',
+              mixBlendMode: 'screen',
             }}
-          >
-            CAMI × BLACK ROMEO
-          </span>
+          />
         </motion.div>
 
-        {/* c. Headline */}
+        {/* Headline */}
         <motion.div {...fadeUp(0.6)} style={{ marginBottom: '20px' }}>
           <h1
             style={{
@@ -197,10 +211,11 @@ export default function Hero() {
                 display: 'block',
                 fontSize: 'clamp(40px, 6vw, 72px)',
                 fontWeight: 700,
-                background: 'linear-gradient(90deg, #C9A052 0%, #E8C97A 100%)',
+                background: 'linear-gradient(135deg, #C9A052, #E8C97A, #C9A052)',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
                 backgroundClip: 'text',
+                color: 'transparent',
                 letterSpacing: '-0.01em',
               }}
             >
@@ -209,7 +224,7 @@ export default function Hero() {
           </h1>
         </motion.div>
 
-        {/* d. Subtitle */}
+        {/* Subtitle */}
         <motion.p
           {...fadeIn(0.8)}
           style={{
@@ -226,7 +241,7 @@ export default function Hero() {
           across South Florida
         </motion.p>
 
-        {/* e. Decorative separator */}
+        {/* Decorative separator */}
         <motion.div
           {...fadeIn(0.9)}
           style={{
@@ -253,7 +268,7 @@ export default function Hero() {
           />
         </motion.div>
 
-        {/* f. CTAs */}
+        {/* CTAs */}
         <motion.div
           {...fadeIn(1.0)}
           style={{
@@ -266,29 +281,30 @@ export default function Hero() {
           {/* Primary */}
           <a
             href="#book"
+            className="btn-primary"
             style={{
               display: 'inline-block',
               padding: '16px 36px',
-              background: '#C9A052',
+              background: 'linear-gradient(135deg, #C9A052, #E8C97A)',
               color: '#080808',
               fontFamily: "'Inter', sans-serif",
               fontSize: '12px',
-              fontWeight: 500,
-              letterSpacing: '0.2em',
+              fontWeight: 600,
+              letterSpacing: '0.15em',
               textTransform: 'uppercase',
               textDecoration: 'none',
               borderRadius: 0,
-              border: '1px solid #C9A052',
+              border: 'none',
               cursor: 'pointer',
-              transition: 'background 0.2s, color 0.2s',
+              transition: 'all 0.3s ease',
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.background = '#E8C97A'
-              e.currentTarget.style.borderColor = '#E8C97A'
+              e.currentTarget.style.filter = 'brightness(1.1)'
+              e.currentTarget.style.transform = 'scale(1.02)'
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.background = '#C9A052'
-              e.currentTarget.style.borderColor = '#C9A052'
+              e.currentTarget.style.filter = 'brightness(1)'
+              e.currentTarget.style.transform = 'scale(1)'
             }}
           >
             Book Your Hookah
@@ -298,20 +314,22 @@ export default function Hero() {
           <a
             href="tel:9542263557"
             style={{
-              display: 'inline-block',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '8px',
               padding: '16px 36px',
               background: 'transparent',
               color: '#C9A052',
               fontFamily: "'Inter', sans-serif",
               fontSize: '12px',
               fontWeight: 500,
-              letterSpacing: '0.2em',
+              letterSpacing: '0.15em',
               textTransform: 'uppercase',
               textDecoration: 'none',
               borderRadius: 0,
               border: '1px solid #C9A052',
               cursor: 'pointer',
-              transition: 'background 0.2s',
+              transition: 'background 0.3s ease',
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.background = 'rgba(201,160,82,0.1)'
@@ -320,26 +338,47 @@ export default function Hero() {
               e.currentTarget.style.background = 'transparent'
             }}
           >
+            <Phone size={16} />
             954 226 3557
           </a>
         </motion.div>
       </div>
 
       {/* ── Scroll indicator ── */}
-      <div
-        className="scroll-indicator"
-        aria-hidden="true"
+      <button
+        onClick={scrollToNext}
+        aria-label="Scroll down"
         style={{
           position: 'absolute',
           bottom: '32px',
           left: '50%',
           transform: 'translateX(-50%)',
-          color: 'rgba(201,160,82,0.5)',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: '4px',
+          background: 'none',
+          border: 'none',
+          cursor: 'pointer',
           zIndex: 10,
+          padding: '8px',
         }}
       >
-        <ChevronDown size={28} />
-      </div>
+        <span
+          style={{
+            fontFamily: "'Inter', sans-serif",
+            fontSize: '10px',
+            letterSpacing: '0.25em',
+            color: 'rgba(201,160,82,0.4)',
+            textTransform: 'uppercase',
+          }}
+        >
+          Scroll
+        </span>
+        <div className="scroll-indicator" style={{ color: 'rgba(201,160,82,0.5)' }}>
+          <ChevronDown size={24} />
+        </div>
+      </button>
     </section>
   )
 }
