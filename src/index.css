@@ -1,0 +1,61 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=Inter:wght@300;400;500&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --color-background: #080808;
+  --color-gold: #C9A052;
+  --color-gold-light: #E8C97A;
+  --color-magenta: #D4006E;
+  --color-cream: #F5E6C8;
+  --color-surface: #111111;
+
+  --font-cormorant: 'Cormorant Garamond', serif;
+  --font-inter: 'Inter', sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #080808;
+  color: #F5E6C8;
+  font-family: 'Inter', sans-serif;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+#root {
+  width: 100%;
+  min-height: 100vh;
+}
+
+@keyframes float-left {
+  0%, 100% { transform: translateY(0px) translateX(0px); }
+  33% { transform: translateY(-24px) translateX(8px); }
+  66% { transform: translateY(12px) translateX(-6px); }
+}
+
+@keyframes float-right {
+  0%, 100% { transform: translateY(0px) translateX(0px); }
+  33% { transform: translateY(20px) translateX(-10px); }
+  66% { transform: translateY(-16px) translateX(6px); }
+}
+
+@keyframes scroll-bounce {
+  0%, 100% { transform: translateY(0); opacity: 0.5; }
+  50% { transform: translateY(8px); opacity: 0.9; }
+}
+
+.smoke-left {
+  animation: float-left 7s ease-in-out infinite;
+}
+
+.smoke-right {
+  animation: float-right 8s ease-in-out infinite;
+}
+
+.scroll-indicator {
+  animation: scroll-bounce 2s ease-in-out infinite;
+}
