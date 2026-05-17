@@ -6,6 +6,7 @@ const CREAM = '#F5E6C8'
 const MAGENTA = '#D4006E'
 
 const VENUES = ['Restaurant', 'Lounge', 'Private Event']
+const FLAVORS = ['Mint', 'Apple', 'Grape', 'Watermelon', 'Lemon', 'Vanilla', 'Cherry', 'Other']
 
 // ── Shared input styles ────────────────────────────────────
 const inputBase: CSSProperties = {
@@ -138,7 +139,7 @@ type FormData = {
   direccion: string
   tipoVenue: string
   numHookahs: string
-  sabores: string
+  sabores: string[]
   notas: string
 }
 
@@ -147,7 +148,7 @@ type Errors = Partial<Record<keyof FormData, string>>
 const INITIAL: FormData = {
   nombre: '', email: '', telefono: '',
   fecha: '', hora: '', direccion: '', tipoVenue: '',
-  numHookahs: '1', sabores: '', notas: '',
+  numHookahs: '1', sabores: [], notas: '',
 }
 
 // ── Validation ─────────────────────────────────────────────
@@ -172,7 +173,7 @@ function validateStep(step: number, data: FormData): Errors {
 
   if (step === 3) {
     if (!data.numHookahs || parseInt(data.numHookahs) < 1) errs.numHookahs = 'Minimum 1 hookah required'
-    if (!data.sabores.trim()) errs.sabores = 'Please enter at least one flavor'
+    if (data.sabores.length === 0) errs.sabores = 'Please select at least one flavor'
   }
 
   return errs
@@ -204,6 +205,16 @@ export default function BookingForm() {
     if (errors[field]) setErrors((e) => ({ ...e, [field]: undefined }))
   }
 
+  const toggleFlavor = (flavor: string) => {
+    setData((d) => {
+      const next = d.sabores.includes(flavor)
+        ? d.sabores.filter((f) => f !== flavor)
+        : [...d.sabores, flavor]
+      return { ...d, sabores: next }
+    })
+    if (errors.sabores) setErrors((e) => ({ ...e, sabores: undefined }))
+  }
+
   const next = () => {
     const errs = validateStep(step, data)
     if (Object.keys(errs).length) { setErrors(errs); return }
@@ -222,7 +233,7 @@ export default function BookingForm() {
       const res = await fetch('/api/submit-booking', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
+        body: JSON.stringify({ ...data, sabores: data.sabores.join(', ') }),
       })
       if (res.ok) {
         setStatus('success')
@@ -413,15 +424,42 @@ export default function BookingForm() {
             />
           </Field>
           <Field label="Preferred Flavors" error={errors.sabores}>
-            <textarea
-              style={{ ...inputBase, resize: 'none', minHeight: '72px' }}
-              value={data.sabores}
-              onChange={set('sabores')}
-              onFocus={onFocus}
-              onBlur={onBlur}
-              placeholder="e.g. Mint, Mango, Strawberry"
-              rows={2}
-            />
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fill, minmax(120px, 1fr))',
+                gap: '8px',
+                paddingTop: '8px',
+              }}
+            >
+              {FLAVORS.map((flavor) => {
+                const checked = data.sabores.includes(flavor)
+                return (
+                  <button
+                    key={flavor}
+                    type="button"
+                    onClick={() => toggleFlavor(flavor)}
+                    style={{
+                      padding: '8px 12px',
+                      background: checked ? 'rgba(201,160,82,0.12)' : 'transparent',
+                      border: `1px solid ${checked ? GOLD : 'rgba(201,160,82,0.25)'}`,
+                      color: checked ? GOLD : 'rgba(245,230,200,0.5)',
+                      fontFamily: "'Inter', sans-serif",
+                      fontSize: '11px',
+                      fontWeight: 400,
+                      letterSpacing: '0.12em',
+                      textTransform: 'uppercase',
+                      cursor: 'pointer',
+                      borderRadius: 0,
+                      transition: 'all 0.2s',
+                      textAlign: 'center',
+                    }}
+                  >
+                    {flavor}
+                  </button>
+                )
+              })}
+            </div>
           </Field>
           <Field label="Special Notes (optional)">
             <textarea

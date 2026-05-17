@@ -21,17 +21,20 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         },
         body: JSON.stringify({
           fields: {
-            'Nombre': nombre,
+            'Full Name': nombre,
             'Email': email,
-            'Teléfono': telefono,
-            'Fecha del evento': fecha,
-            'Hora': hora,
-            'Dirección': direccion,
-            'Tipo de venue': tipoVenue,
-            'Número de hookahs': parseInt(numHookahs),
-            'Sabores preferidos': sabores,
-            'Notas especiales': notas,
-            'Estado': 'Pendiente'
+            'Phone': telefono,
+            'Event Date': fecha,
+            'Event Time': hora,
+            'Delivery Address': direccion,
+            'Venue Type': tipoVenue,
+            'Number of Hookahs': parseInt(numHookahs),
+            'Preferred Flavors': sabores
+              .split(',')
+              .map((s: string) => s.trim())
+              .filter((s: string) => s.length > 0),
+            'Special Notes': notas,
+            'Status': 'Pending'
           }
         })
       }
