@@ -1,22 +1,13 @@
 import { useEffect, useRef, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Phone } from 'lucide-react'
+import { Phone, Mail } from 'lucide-react'
 
 const GOLD = '#C9A052'
 
-// Instagram SVG (same inline approach used in Navbar)
 function InstagramIcon({ size = 20, color = GOLD }: { size?: number; color?: string }) {
   return (
-    <svg
-      width={size}
-      height={size}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke={color}
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none"
+      stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
       <circle cx="12" cy="12" r="4" />
       <circle cx="17.5" cy="6.5" r="0.5" fill={color} stroke="none" />
@@ -52,23 +43,34 @@ const OPTIONS: ContactOption[] = [
     hoverBg: 'rgba(201,160,82,0.1)',
     hoverColor: GOLD,
   },
+  {
+    icon: (color) => <Mail size={20} color={color} strokeWidth={1.5} />,
+    label: 'Email us',
+    sub: 'camiblackromeo@gmail.com',
+    href: 'mailto:camiblackromeo@gmail.com',
+    hoverBg: 'rgba(201,160,82,0.1)',
+    hoverColor: GOLD,
+  },
 ]
 
-export default function FloatingContact() {
-  const [open, setOpen] = useState(false)
+interface Props {
+  open: boolean
+  onOpenChange: (v: boolean) => void
+}
+
+export default function FloatingContact({ open, onOpenChange }: Props) {
   const ref = useRef<HTMLDivElement>(null)
 
-  // Close on outside click
   useEffect(() => {
     if (!open) return
     const handler = (e: MouseEvent) => {
       if (ref.current && !ref.current.contains(e.target as Node)) {
-        setOpen(false)
+        onOpenChange(false)
       }
     }
     document.addEventListener('mousedown', handler)
     return () => document.removeEventListener('mousedown', handler)
-  }, [open])
+  }, [open, onOpenChange])
 
   return (
     <div
@@ -84,7 +86,6 @@ export default function FloatingContact() {
         gap: '12px',
       }}
     >
-      {/* ── Contact card (opens above button) ── */}
       <AnimatePresence>
         {open && (
           <motion.div
@@ -98,43 +99,31 @@ export default function FloatingContact() {
               borderRadius: '12px',
               padding: '16px',
               boxShadow: '0 8px 32px rgba(0,0,0,0.6)',
-              minWidth: '200px',
+              minWidth: '220px',
             }}
           >
-            {/* Header */}
-            <div
-              style={{
-                fontFamily: "'Inter', sans-serif",
-                fontSize: '10px',
-                letterSpacing: '0.25em',
-                color: 'rgba(201,160,82,0.6)',
-                textTransform: 'uppercase',
-                marginBottom: '10px',
-              }}
-            >
+            <div style={{
+              fontFamily: "'Inter', sans-serif",
+              fontSize: '10px',
+              letterSpacing: '0.25em',
+              color: 'rgba(201,160,82,0.6)',
+              textTransform: 'uppercase',
+              marginBottom: '10px',
+            }}>
               Contact Us
             </div>
-            <div
-              style={{
-                height: '1px',
-                background: 'rgba(201,160,82,0.2)',
-                marginBottom: '12px',
-              }}
-            />
-
-            {/* Options */}
+            <div style={{ height: '1px', background: 'rgba(201,160,82,0.2)', marginBottom: '12px' }} />
             <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
               {OPTIONS.map((opt) => (
-                <ContactRow key={opt.href} opt={opt} onClose={() => setOpen(false)} />
+                <ContactRow key={opt.href} opt={opt} onClose={() => onOpenChange(false)} />
               ))}
             </div>
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* ── Trigger button ── */}
       <button
-        onClick={() => setOpen((v) => !v)}
+        onClick={() => onOpenChange(!open)}
         aria-label="Contact us"
         style={{
           width: '56px',
@@ -160,29 +149,15 @@ export default function FloatingContact() {
           e.currentTarget.style.boxShadow = '0 4px 20px rgba(201,160,82,0.4)'
         }}
       >
-        <img
-          src="/Logo.png"
-          alt="CAMI"
-          style={{
-            width: '32px',
-            height: '32px',
-            objectFit: 'contain',
-            mixBlendMode: 'multiply',
-          }}
-        />
+        <img src="/Logo.png" alt="CAMI" style={{
+          width: '32px', height: '32px', objectFit: 'contain', mixBlendMode: 'multiply',
+        }} />
       </button>
     </div>
   )
 }
 
-// Separate component so each row manages its own hover color state
-function ContactRow({
-  opt,
-  onClose,
-}: {
-  opt: ContactOption
-  onClose: () => void
-}) {
+function ContactRow({ opt, onClose }: { opt: ContactOption; onClose: () => void }) {
   const [hovered, setHovered] = useState(false)
 
   return (
@@ -204,28 +179,12 @@ function ContactRow({
         transition: 'background 0.2s',
       }}
     >
-      <div style={{ flexShrink: 0 }}>
-        {opt.icon(hovered ? opt.hoverColor : GOLD)}
-      </div>
+      <div style={{ flexShrink: 0 }}>{opt.icon(hovered ? opt.hoverColor : GOLD)}</div>
       <div style={{ display: 'flex', flexDirection: 'column', gap: '1px' }}>
-        <span
-          style={{
-            fontFamily: "'Inter', sans-serif",
-            fontSize: '13px',
-            fontWeight: 400,
-            color: '#F5E6C8',
-          }}
-        >
+        <span style={{ fontFamily: "'Inter', sans-serif", fontSize: '13px', fontWeight: 400, color: '#F5E6C8' }}>
           {opt.label}
         </span>
-        <span
-          style={{
-            fontFamily: "'Inter', sans-serif",
-            fontSize: '11px',
-            fontWeight: 400,
-            color: GOLD,
-          }}
-        >
+        <span style={{ fontFamily: "'Inter', sans-serif", fontSize: '11px', fontWeight: 400, color: GOLD }}>
           {opt.sub}
         </span>
       </div>

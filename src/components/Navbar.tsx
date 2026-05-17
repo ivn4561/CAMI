@@ -1,5 +1,16 @@
 import { useEffect, useState } from 'react'
 
+const NAV_LINKS = [
+  { label: 'About', href: '#about' },
+  { label: 'Services', href: '#services' },
+  { label: 'Contact', href: '#book' },
+]
+
+function smoothScroll(href: string) {
+  const id = href.replace('#', '')
+  document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
+}
+
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
 
@@ -8,6 +19,16 @@ export default function Navbar() {
     window.addEventListener('scroll', onScroll)
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
+
+  const brandStyle = {
+    fontFamily: "'Inter', sans-serif",
+    fontSize: '13px',
+    fontWeight: 500,
+    color: '#C9A052',
+    letterSpacing: '0.2em',
+    textTransform: 'uppercase' as const,
+    textDecoration: 'none',
+  }
 
   return (
     <nav
@@ -31,28 +52,35 @@ export default function Navbar() {
           height: '72px',
           display: 'flex',
           alignItems: 'center',
-          justifyContent: 'space-between',
+          position: 'relative',
         }}
       >
-        {/* Logo left */}
+        {/* Left — CAMI */}
         <div
           style={{
-            fontFamily: "'Cormorant Garamond', serif",
-            fontSize: '18px',
-            fontWeight: 700,
-            color: '#C9A052',
-            letterSpacing: '0.1em',
+            ...brandStyle,
+            borderRight: '1px solid rgba(201,160,82,0.35)',
+            paddingRight: '16px',
           }}
         >
           CAMI
         </div>
 
-        {/* Links center */}
-        <div style={{ display: 'flex', gap: '40px' }}>
-          {['About', 'Services', 'Contact'].map((link) => (
+        {/* Center — links (absolute so they're always centered) */}
+        <div
+          style={{
+            position: 'absolute',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            display: 'flex',
+            gap: '40px',
+          }}
+        >
+          {NAV_LINKS.map(({ label, href }) => (
             <a
-              key={link}
-              href="#"
+              key={label}
+              href={href}
+              onClick={(e) => { e.preventDefault(); smoothScroll(href) }}
               style={{
                 fontFamily: "'Inter', sans-serif",
                 fontSize: '12px',
@@ -66,48 +94,22 @@ export default function Navbar() {
               onMouseEnter={(e) => (e.currentTarget.style.color = '#C9A052')}
               onMouseLeave={(e) => (e.currentTarget.style.color = 'rgba(245,230,200,0.7)')}
             >
-              {link}
+              {label}
             </a>
           ))}
         </div>
 
-        {/* Right: Phone + Instagram */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
-          <a
-            href="tel:9542263557"
+        {/* Right — BLACK ROMEO */}
+        <div style={{ marginLeft: 'auto' }}>
+          <div
             style={{
-              fontFamily: "'Inter', sans-serif",
-              fontSize: '13px',
-              fontWeight: 500,
-              color: '#C9A052',
-              textDecoration: 'none',
-              letterSpacing: '0.1em',
+              ...brandStyle,
+              borderLeft: '1px solid rgba(201,160,82,0.35)',
+              paddingLeft: '16px',
             }}
           >
-            954 226 3557
-          </a>
-
-          <a
-            href="https://www.instagram.com/bc_luxery"
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{
-              color: '#C9A052',
-              display: 'flex',
-              alignItems: 'center',
-              transition: 'color 0.2s ease',
-            }}
-            onMouseEnter={(e) => (e.currentTarget.style.color = '#D4006E')}
-            onMouseLeave={(e) => (e.currentTarget.style.color = '#C9A052')}
-            aria-label="Instagram"
-          >
-            {/* Instagram SVG */}
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
-              <circle cx="12" cy="12" r="4" />
-              <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none" />
-            </svg>
-          </a>
+            Black Romeo
+          </div>
         </div>
       </div>
     </nav>

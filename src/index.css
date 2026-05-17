@@ -65,3 +65,19 @@ body {
 .scroll-indicator {
   animation: scroll-bounce 2s ease-in-out infinite;
 }
+
+/* ── Hero CTA buttons — responsive layout ── */
+.hero-ctas {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+@media (max-width: 480px) {
+  .hero-ctas {
+    flex-direction: column;
+    align-items: center;
+  }
+}
