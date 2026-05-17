@@ -95,23 +95,18 @@ body {
   }
 }
 
-.hookah-wrap {
-  opacity: 1;
+.hookah-outer {
+  display: flex;
 }
 
 .hookah-img {
-  height: 420px;
+  height: 400px;
 }
 
-@media (max-width: 768px) {
-  .hookah-wrap {
-    opacity: 0.4;
+@media (max-width: 1024px) {
+  .hookah-outer {
+    display: none;
   }
-  .hookah-img {
-    height: 280px;
-  }
-  .hookah-left  { left:  -30px !important; }
-  .hookah-right { right: -30px !important; }
 }
 
 /* ── Page smoke orbs ── */

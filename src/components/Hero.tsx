@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ChevronDown, Phone, Mail } from 'lucide-react'
-import HookahSmoke from './HookahSmoke'
 
 const fadeUp = (delay: number) => ({
   initial: { opacity: 0, y: 24 },
@@ -193,9 +192,6 @@ export default function Hero() {
           boxSizing: 'border-box',
         }}
       >
-        <HookahSmoke side="left" />
-        <HookahSmoke side="right" />
-
         {/* Art Deco border — child of content, NOT of section */}
         <div aria-hidden="true" style={{
           position: 'absolute', inset: 0,

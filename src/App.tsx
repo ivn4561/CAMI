@@ -2,6 +2,7 @@ import { useState } from 'react'
 import './index.css'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
+import HookahSmoke from './components/HookahSmoke'
 import About from './components/About'
 import Services from './components/Services'
 import BookingForm from './components/BookingForm'
@@ -47,7 +48,11 @@ export default function App() {
     <div style={{ minHeight: '100vh', background: '#080808' }}>
       <PageSmoke />
       <Navbar />
-      <Hero />
+      <div style={{ position: 'relative' }}>
+        <Hero />
+        <HookahSmoke side="left" />
+        <HookahSmoke side="right" />
+      </div>
       <About />
       <Services />
 
