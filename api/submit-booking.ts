@@ -33,7 +33,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
               ? sabores
               : sabores.split(',').map((s: string) => s.trim()).filter(Boolean),
             'Special Notes': notas,
-            'Status': 'Pending'
+            'Reservation Status': 'Pendiente'
           }
         })
       }

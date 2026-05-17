@@ -5,8 +5,21 @@ const GOLD = '#C9A052'
 const CREAM = '#F5E6C8'
 const MAGENTA = '#D4006E'
 
-const VENUES = ['Restaurant', 'Lounge', 'Private Event']
-const FLAVORS = ['Mint', 'Apple', 'Grape', 'Watermelon', 'Lemon', 'Vanilla', 'Cherry', 'Other']
+const VENUES = [
+  { value: 'Restaurante', label: 'Restaurant' },
+  { value: 'Lounge', label: 'Lounge' },
+  { value: 'Evento Privado', label: 'Private Event' },
+]
+const FLAVORS = [
+  { value: 'Menta', label: 'Mint' },
+  { value: 'Manzana', label: 'Apple' },
+  { value: 'Uva', label: 'Grape' },
+  { value: 'Sandía', label: 'Watermelon' },
+  { value: 'Limón', label: 'Lemon' },
+  { value: 'Vainilla', label: 'Vanilla' },
+  { value: 'Cereza', label: 'Cherry' },
+  { value: 'Otro', label: 'Other' },
+]
 
 // ── Shared input styles ────────────────────────────────────
 const inputBase: CSSProperties = {
@@ -401,7 +414,7 @@ export default function BookingForm() {
             >
               <option value="" disabled style={{ background: '#111' }}>Select venue type</option>
               {VENUES.map((v) => (
-                <option key={v} value={v} style={{ background: '#111', color: CREAM }}>{v}</option>
+                <option key={v.value} value={v.value} style={{ background: '#111', color: CREAM }}>{v.label}</option>
               ))}
             </select>
           </Field>
@@ -433,12 +446,12 @@ export default function BookingForm() {
               }}
             >
               {FLAVORS.map((flavor) => {
-                const checked = data.sabores.includes(flavor)
+                const checked = data.sabores.includes(flavor.value)
                 return (
                   <button
-                    key={flavor}
+                    key={flavor.value}
                     type="button"
-                    onClick={() => toggleFlavor(flavor)}
+                    onClick={() => toggleFlavor(flavor.value)}
                     style={{
                       padding: '8px 12px',
                       background: checked ? 'rgba(201,160,82,0.12)' : 'transparent',
@@ -455,7 +468,7 @@ export default function BookingForm() {
                       textAlign: 'center',
                     }}
                   >
-                    {flavor}
+                    {flavor.label}
                   </button>
                 )
               })}
