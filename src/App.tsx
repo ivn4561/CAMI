@@ -8,11 +8,44 @@ import BookingForm from './components/BookingForm'
 import FloatingContact from './components/FloatingContact'
 import Footer from './components/Footer'
 
+const ORBS = [
+  { top: '10%',  left: '5%',  delay: '0s' },
+  { top: '40%',  right: '3%', delay: '4s' },
+  { top: '70%',  left: '10%', delay: '8s' },
+  { top: '90%',  right: '8%', delay: '2s' },
+]
+
+function PageSmoke() {
+  return (
+    <div style={{
+      position: 'fixed', inset: 0,
+      pointerEvents: 'none', zIndex: 1,
+      overflow: 'hidden',
+    }}>
+      {ORBS.map((orb, i) => (
+        <div key={i} style={{
+          position: 'absolute',
+          top: orb.top,
+          left: ('left' in orb) ? orb.left : undefined,
+          right: ('right' in orb) ? orb.right : undefined,
+          width: '300px',
+          height: '600px',
+          background: 'radial-gradient(ellipse, rgba(212,0,110,0.04) 0%, transparent 70%)',
+          filter: 'blur(40px)',
+          animation: `floatSlow 12s ease-in-out infinite`,
+          animationDelay: orb.delay,
+        }} />
+      ))}
+    </div>
+  )
+}
+
 export default function App() {
   const [contactOpen, setContactOpen] = useState(false)
 
   return (
     <div style={{ minHeight: '100vh', background: '#080808' }}>
+      <PageSmoke />
       <Navbar />
       <Hero />
       <About />

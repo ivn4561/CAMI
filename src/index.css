@@ -81,3 +81,34 @@ body {
     align-items: center;
   }
 }
+
+/* ── Hookah smoke particles ── */
+@keyframes smokeRise {
+  0% {
+    transform: translateY(0) translateX(0) scale(0.5);
+    opacity: 0;
+  }
+  20% { opacity: 0.6; }
+  100% {
+    transform: translateY(-120px) translateX(var(--drift)) scale(1.8);
+    opacity: 0;
+  }
+}
+
+.hookah-wrap {
+  opacity: 0.85;
+}
+
+@media (max-width: 768px) {
+  .hookah-wrap {
+    opacity: 0.3;
+    transform: scale(0.7);
+    transform-origin: bottom center;
+  }
+}
+
+/* ── Page smoke orbs ── */
+@keyframes floatSlow {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-40px); }
+}
