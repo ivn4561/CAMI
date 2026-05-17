@@ -29,10 +29,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             'Delivery Address': direccion,
             'Venue Type': tipoVenue,
             'Number of Hookahs': parseInt(numHookahs),
-            'Preferred Flavors': sabores
-              .split(',')
-              .map((s: string) => s.trim())
-              .filter((s: string) => s.length > 0),
+            'Preferred Flavors': Array.isArray(sabores)
+              ? sabores
+              : sabores.split(',').map((s: string) => s.trim()).filter(Boolean),
             'Special Notes': notas,
             'Status': 'Pending'
           }
