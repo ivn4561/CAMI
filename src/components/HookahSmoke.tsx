@@ -31,12 +31,13 @@ export default function HookahSmoke({ side }: Props) {
       className="hookah-outer"
       style={{
         position: 'absolute',
-        bottom: 0,
+        top: '50%',
+        transform: 'translateY(-50%)',
         ...(isRight ? { right: 0 } : { left: 0 }),
         width: 'calc((100vw - 760px) / 2)',
         maxWidth: '300px',
         display: 'flex',
-        alignItems: 'flex-end',
+        alignItems: 'center',
         justifyContent: isRight ? 'flex-start' : 'flex-end',
         pointerEvents: 'none',
         zIndex: 6,
@@ -79,12 +80,14 @@ export default function HookahSmoke({ side }: Props) {
           alt=""
           className="hookah-img"
           style={{
+            height: '70vh',
+            maxHeight: '500px',
             width: 'auto',
             objectFit: 'contain',
-            objectPosition: 'center bottom',
             display: 'block',
             transform: isRight ? 'scaleX(-1)' : undefined,
             filter: 'drop-shadow(0 0 20px rgba(212,0,110,0.3))',
+            mixBlendMode: 'multiply',
             opacity: 0.9,
           }}
         />

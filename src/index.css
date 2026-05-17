@@ -100,7 +100,8 @@ body {
 }
 
 .hookah-img {
-  height: 400px;
+  height: 70vh;
+  max-height: 500px;
 }
 
 @media (max-width: 1024px) {
