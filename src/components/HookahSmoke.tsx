@@ -6,16 +6,16 @@ const PARTICLES: {
   delay: string
   size: number
 }[] = [
-  { drift: '-18px', duration: '3.5s', delay: '0s',   size: 35 },
-  { drift:  '12px', duration: '4.0s', delay: '0.4s', size: 35 },
-  { drift:  '-8px', duration: '3.8s', delay: '0.8s', size: 35 },
-  { drift:  '20px', duration: '4.5s', delay: '0.2s', size: 50 },
-  { drift: '-15px', duration: '3.2s', delay: '1.2s', size: 50 },
-  { drift:   '6px', duration: '4.2s', delay: '0.6s', size: 50 },
-  { drift: '-22px', duration: '3.6s', delay: '1.5s', size: 65 },
-  { drift:  '16px', duration: '4.8s', delay: '0.3s', size: 65 },
-  { drift: '-10px', duration: '3.9s', delay: '1.8s', size: 65 },
-  { drift:   '8px', duration: '4.3s', delay: '0.9s', size: 65 },
+  { drift: '-18px', duration: '3.5s', delay: '0s',   size: 45 },
+  { drift:  '12px', duration: '4.0s', delay: '0.4s', size: 45 },
+  { drift:  '-8px', duration: '3.8s', delay: '0.8s', size: 45 },
+  { drift:  '20px', duration: '4.5s', delay: '0.2s', size: 55 },
+  { drift: '-15px', duration: '3.2s', delay: '1.2s', size: 55 },
+  { drift:   '6px', duration: '4.2s', delay: '0.6s', size: 55 },
+  { drift: '-22px', duration: '3.6s', delay: '1.5s', size: 70 },
+  { drift:  '16px', duration: '4.8s', delay: '0.3s', size: 70 },
+  { drift: '-10px', duration: '3.9s', delay: '1.8s', size: 70 },
+  { drift:   '8px', duration: '4.3s', delay: '0.9s', size: 70 },
 ]
 
 interface Props {
@@ -31,8 +31,8 @@ export default function HookahSmoke({ side }: Props) {
       className="hookah-outer"
       style={{
         position: 'absolute',
-        top: '50%',
-        transform: 'translateY(-50%)',
+        top: '45%',
+        transform: 'translateY(-45%)',
         ...(isRight ? { right: 0 } : { left: 0 }),
         width: 'calc((100vw - 760px) / 2)',
         maxWidth: '300px',
@@ -46,10 +46,10 @@ export default function HookahSmoke({ side }: Props) {
     >
       {/* Image wrapper so smoke origin tracks the hookah top */}
       <div style={{ position: 'relative', display: 'inline-block' }}>
-        {/* Smoke particles — emit from top of hookah */}
+        {/* Smoke particles — emit from near the top of the hookah */}
         <div style={{
           position: 'absolute',
-          bottom: '85%',
+          top: '8%',
           left: '50%',
           transform: 'translateX(-50%)',
           width: '1px',
@@ -80,13 +80,13 @@ export default function HookahSmoke({ side }: Props) {
           alt=""
           className="hookah-img"
           style={{
-            height: '70vh',
-            maxHeight: '500px',
+            height: '85vh',
+            maxHeight: '620px',
             width: 'auto',
             objectFit: 'contain',
             display: 'block',
             transform: isRight ? 'scaleX(-1)' : undefined,
-            filter: 'drop-shadow(0 0 15px rgba(212,0,110,0.25))',
+            filter: 'drop-shadow(0 0 25px rgba(212,0,110,0.4)) drop-shadow(0 0 50px rgba(212,0,110,0.15))',
             opacity: 0.9,
           }}
         />
