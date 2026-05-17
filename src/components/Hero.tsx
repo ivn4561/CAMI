@@ -1,5 +1,6 @@
-import { motion } from 'framer-motion'
-import { ChevronDown } from 'lucide-react'
+import { useEffect, useRef, useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { ChevronDown, Phone, Mail } from 'lucide-react'
 
 const fadeUp = (delay: number) => ({
   initial: { opacity: 0, y: 24 },
@@ -17,11 +18,179 @@ function scrollToNext() {
   window.scrollBy({ top: window.innerHeight, behavior: 'smooth' })
 }
 
-interface Props {
-  onContactClick: () => void
+// ── Instagram SVG ──────────────────────────────────────────
+function InstagramIcon({ color }: { color: string }) {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+      stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+      <circle cx="12" cy="12" r="4" />
+      <circle cx="17.5" cy="6.5" r="0.5" fill={color} stroke="none" />
+    </svg>
+  )
 }
 
-export default function Hero({ onContactClick }: Props) {
+// ── Contact dropdown item ───────────────────────────────────
+function DropdownItem({
+  icon,
+  text,
+  href,
+  target,
+}: {
+  icon: React.ReactNode
+  text: string
+  href: string
+  target?: string
+}) {
+  const [hovered, setHovered] = useState(false)
+  return (
+    <a
+      href={href}
+      target={target}
+      rel={target === '_blank' ? 'noopener noreferrer' : undefined}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        gap: '10px',
+        padding: '8px',
+        borderRadius: '6px',
+        textDecoration: 'none',
+        background: hovered ? 'rgba(201,160,82,0.08)' : 'transparent',
+        transition: 'background 0.15s',
+        cursor: 'pointer',
+      }}
+    >
+      {icon}
+      <span style={{
+        fontFamily: "'Inter', sans-serif",
+        fontSize: text.includes('@') || text.includes('.com') ? '11px' : '13px',
+        fontWeight: 300,
+        color: '#F5E6C8',
+      }}>
+        {text}
+      </span>
+    </a>
+  )
+}
+
+// ── CTA button pair with inline contact dropdown ────────────
+function ContactButtons() {
+  const [show, setShow] = useState(false)
+  const ref = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (!show) return
+    const handler = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) setShow(false)
+    }
+    document.addEventListener('mousedown', handler)
+    return () => document.removeEventListener('mousedown', handler)
+  }, [show])
+
+  const btnBase = {
+    flex: 1,
+    minWidth: 0,
+    whiteSpace: 'nowrap' as const,
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: '16px 0',
+    fontFamily: "'Inter', sans-serif",
+    fontSize: '12px',
+    letterSpacing: '0.15em',
+    textTransform: 'uppercase' as const,
+    borderRadius: 0,
+    cursor: 'pointer',
+    transition: 'all 0.3s ease',
+  }
+
+  return (
+    <div className="hero-ctas">
+      {/* Primary — Book */}
+      <a
+        href="#book"
+        onClick={(e) => { e.preventDefault(); document.getElementById('book')?.scrollIntoView({ behavior: 'smooth' }) }}
+        style={{
+          ...btnBase,
+          background: 'linear-gradient(135deg, #C9A052, #E8C97A)',
+          color: '#080808',
+          fontWeight: 600,
+          textDecoration: 'none',
+          border: 'none',
+        }}
+        onMouseEnter={(e) => { e.currentTarget.style.filter = 'brightness(1.1)'; e.currentTarget.style.transform = 'scale(1.02)' }}
+        onMouseLeave={(e) => { e.currentTarget.style.filter = 'brightness(1)'; e.currentTarget.style.transform = 'scale(1)' }}
+      >
+        Book Your Hookah
+      </a>
+
+      {/* Secondary — Contact Us with inline dropdown */}
+      <div ref={ref} style={{ flex: 1, minWidth: 0, position: 'relative' }}>
+        <button
+          onClick={() => setShow((v) => !v)}
+          style={{
+            ...btnBase,
+            width: '100%',
+            background: 'transparent',
+            color: '#C9A052',
+            fontWeight: 500,
+            border: '1px solid #C9A052',
+          }}
+          onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(201,160,82,0.1)' }}
+          onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent' }}
+        >
+          Contact Us
+        </button>
+
+        {/* Dropdown card */}
+        <AnimatePresence>
+          {show && (
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 10 }}
+              transition={{ duration: 0.2, ease: 'easeOut' }}
+              style={{
+                position: 'absolute',
+                bottom: 'calc(100% + 12px)',
+                left: '50%',
+                transform: 'translateX(-50%)',
+                width: '220px',
+                background: '#111111',
+                border: '1px solid rgba(201,160,82,0.3)',
+                borderRadius: '8px',
+                padding: '12px',
+                boxShadow: '0 -8px 32px rgba(0,0,0,0.6)',
+                zIndex: 50,
+              }}
+            >
+              <DropdownItem
+                icon={<InstagramIcon color="#D4006E" />}
+                text="@bc_luxery"
+                href="https://www.instagram.com/bc_luxery"
+                target="_blank"
+              />
+              <DropdownItem
+                icon={<Phone size={18} color="#C9A052" strokeWidth={1.5} />}
+                text="954 226 3557"
+                href="tel:+19542263557"
+              />
+              <DropdownItem
+                icon={<Mail size={18} color="#C9A052" strokeWidth={1.5} />}
+                text="camiblackromeo@gmail.com"
+                href="mailto:camiblackromeo@gmail.com"
+              />
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+    </div>
+  )
+}
+
+export default function Hero() {
   return (
     <section
       style={{
@@ -138,45 +307,17 @@ export default function Hero({ onContactClick }: Props) {
         </motion.div>
 
         {/* CTAs */}
-        <motion.div {...fadeIn(1.0)} className="hero-ctas">
-          {/* Primary — Book */}
-          <a
-            href="#book"
-            onClick={(e) => { e.preventDefault(); document.getElementById('book')?.scrollIntoView({ behavior: 'smooth' }) }}
-            className="hero-btn"
-            style={{
-              display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-              padding: '16px 0', maxWidth: '240px', width: '100%',
-              background: 'linear-gradient(135deg, #C9A052, #E8C97A)',
-              color: '#080808', fontFamily: "'Inter', sans-serif",
-              fontSize: '12px', fontWeight: 600, letterSpacing: '0.15em',
-              textTransform: 'uppercase', textDecoration: 'none',
-              borderRadius: 0, border: 'none', cursor: 'pointer', transition: 'all 0.3s ease',
-            }}
-            onMouseEnter={(e) => { e.currentTarget.style.filter = 'brightness(1.1)'; e.currentTarget.style.transform = 'scale(1.02)' }}
-            onMouseLeave={(e) => { e.currentTarget.style.filter = 'brightness(1)'; e.currentTarget.style.transform = 'scale(1)' }}
-          >
-            Book Your Hookah
-          </a>
-
-          {/* Secondary — Contact Us */}
-          <button
-            onClick={onContactClick}
-            className="hero-btn"
-            style={{
-              display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-              padding: '16px 0', maxWidth: '240px', width: '100%',
-              background: 'transparent', color: '#C9A052',
-              fontFamily: "'Inter', sans-serif", fontSize: '12px', fontWeight: 500,
-              letterSpacing: '0.15em', textTransform: 'uppercase',
-              borderRadius: 0, border: '1px solid #C9A052',
-              cursor: 'pointer', transition: 'background 0.3s ease',
-            }}
-            onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(201,160,82,0.1)' }}
-            onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent' }}
-          >
-            Contact Us
-          </button>
+        <motion.div
+          {...fadeIn(1.0)}
+          style={{
+            width: '100%',
+            maxWidth: '560px',
+            margin: '0 auto',
+            padding: '0 32px',
+            boxSizing: 'border-box',
+          }}
+        >
+          <ContactButtons />
         </motion.div>
       </div>
 
