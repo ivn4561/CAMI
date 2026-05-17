@@ -30,8 +30,8 @@ function PageSmoke() {
           right: ('right' in orb) ? orb.right : undefined,
           width: '300px',
           height: '600px',
-          background: 'radial-gradient(ellipse, rgba(212,0,110,0.04) 0%, transparent 70%)',
-          filter: 'blur(40px)',
+          background: 'radial-gradient(ellipse, rgba(212,0,110,0.08) 0%, transparent 70%)',
+          filter: 'blur(60px)',
           animation: `floatSlow 12s ease-in-out infinite`,
           animationDelay: orb.delay,
         }} />
