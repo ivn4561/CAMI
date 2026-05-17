@@ -86,8 +86,7 @@ export default function HookahSmoke({ side }: Props) {
             objectFit: 'contain',
             display: 'block',
             transform: isRight ? 'scaleX(-1)' : undefined,
-            filter: 'drop-shadow(0 0 20px rgba(212,0,110,0.3))',
-            mixBlendMode: 'multiply',
+            filter: 'drop-shadow(0 0 15px rgba(212,0,110,0.25))',
             opacity: 0.9,
           }}
         />
