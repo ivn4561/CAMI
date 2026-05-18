@@ -46,10 +46,10 @@ export default function HookahSmoke({ side }: Props) {
     >
       {/* Image wrapper so smoke origin tracks the hookah top */}
       <div style={{ position: 'relative', display: 'inline-block' }}>
-        {/* Smoke particles — emit from near the top of the hookah */}
+        {/* Smoke particles — emit from the bowl at the top of the hookah */}
         <div style={{
           position: 'absolute',
-          top: '8%',
+          top: '5%',
           left: '50%',
           transform: 'translateX(-50%)',
           width: '1px',
