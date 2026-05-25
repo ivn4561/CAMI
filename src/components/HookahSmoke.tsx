@@ -49,9 +49,8 @@ export default function HookahSmoke({ side }: Props) {
         {/* Smoke particles — emit from the bowl at the top of the hookah */}
         <div style={{
           position: 'absolute',
-          top: '5%',
-          left: '50%',
-          transform: 'translateX(-50%)',
+          top: '10%',
+          left: '42%',
           width: '1px',
           height: '1px',
         }}>

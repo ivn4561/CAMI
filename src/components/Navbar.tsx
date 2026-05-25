@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
-const NAV_LINKS = [
-  { label: 'About', href: '#about' },
+const ANCHOR_LINKS = [
+  { label: 'About',    href: '#about' },
   { label: 'Services', href: '#services' },
-  { label: 'Contact', href: '#book' },
+  { label: 'Packages', href: '/packages' },
+  { label: 'Contact',  href: '#book' },
 ]
 
 function smoothScroll(href: string) {
@@ -13,6 +15,7 @@ function smoothScroll(href: string) {
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
+  const navigate = useNavigate()
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40)
@@ -28,6 +31,21 @@ export default function Navbar() {
     letterSpacing: '0.2em',
     textTransform: 'uppercase' as const,
     textDecoration: 'none',
+  }
+
+  const linkStyle = {
+    fontFamily: "'Inter', sans-serif",
+    fontSize: '12px',
+    fontWeight: 400,
+    color: 'rgba(245,230,200,0.7)',
+    textDecoration: 'none',
+    letterSpacing: '0.15em',
+    textTransform: 'uppercase' as const,
+    transition: 'color 0.2s',
+    cursor: 'pointer',
+    background: 'none',
+    border: 'none',
+    padding: 0,
   }
 
   return (
@@ -73,29 +91,26 @@ export default function Navbar() {
             left: '50%',
             transform: 'translateX(-50%)',
             display: 'flex',
-            gap: '40px',
+            gap: '32px',
+            alignItems: 'center',
           }}
         >
-          {NAV_LINKS.map(({ label, href }) => (
-            <a
+          {ANCHOR_LINKS.map(({ label, href }) => (
+            <button
               key={label}
-              href={href}
-              onClick={(e) => { e.preventDefault(); smoothScroll(href) }}
-              style={{
-                fontFamily: "'Inter', sans-serif",
-                fontSize: '12px',
-                fontWeight: 400,
-                color: 'rgba(245,230,200,0.7)',
-                textDecoration: 'none',
-                letterSpacing: '0.15em',
-                textTransform: 'uppercase',
-                transition: 'color 0.2s',
+              style={linkStyle}
+              onClick={() => {
+                if (href.startsWith('/')) {
+                  navigate(href)
+                } else {
+                  smoothScroll(href)
+                }
               }}
               onMouseEnter={(e) => (e.currentTarget.style.color = '#C9A052')}
               onMouseLeave={(e) => (e.currentTarget.style.color = 'rgba(245,230,200,0.7)')}
             >
               {label}
-            </a>
+            </button>
           ))}
         </div>
 

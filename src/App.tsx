@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Routes, Route } from 'react-router-dom'
 import './index.css'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
@@ -8,6 +9,8 @@ import Services from './components/Services'
 import BookingForm from './components/BookingForm'
 import FloatingContact from './components/FloatingContact'
 import Footer from './components/Footer'
+import MouseSmoke from './components/MouseSmoke'
+import Packages from './pages/Packages'
 
 const ORBS = [
   { top: '10%',  left: '5%',  delay: '0s' },
@@ -41,7 +44,7 @@ function PageSmoke() {
   )
 }
 
-export default function App() {
+function Home() {
   const [contactOpen, setContactOpen] = useState(false)
 
   return (
@@ -112,5 +115,17 @@ export default function App() {
       <Footer />
       <FloatingContact open={contactOpen} onOpenChange={setContactOpen} />
     </div>
+  )
+}
+
+export default function App() {
+  return (
+    <>
+      <MouseSmoke />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/packages" element={<Packages />} />
+      </Routes>
+    </>
   )
 }

@@ -154,6 +154,7 @@ type FormData = {
   numHookahs: string
   sabores: string[]
   notas: string
+  edad: string
 }
 
 type Errors = Partial<Record<keyof FormData, string>>
@@ -161,7 +162,7 @@ type Errors = Partial<Record<keyof FormData, string>>
 const INITIAL: FormData = {
   nombre: '', email: '', telefono: '',
   fecha: '', hora: '', direccion: '', tipoVenue: '',
-  numHookahs: '1', sabores: [], notas: '',
+  numHookahs: '1', sabores: [], notas: '', edad: '',
 }
 
 // ── Validation ─────────────────────────────────────────────
@@ -187,6 +188,7 @@ function validateStep(step: number, data: FormData): Errors {
   if (step === 3) {
     if (!data.numHookahs || parseInt(data.numHookahs) < 1) errs.numHookahs = 'Minimum 1 hookah required'
     if (data.sabores.length === 0) errs.sabores = 'Please select at least one flavor'
+    if (!data.edad || parseInt(data.edad) < 21) errs.edad = 'You must be 21 or older to book our hookah service.'
   }
 
   return errs
@@ -246,7 +248,7 @@ export default function BookingForm() {
       const res = await fetch('/api/submit-booking', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...data, sabores: data.sabores.join(', ') }),
+        body: JSON.stringify({ ...data, sabores: data.sabores.join(', '), edad: data.edad }),
       })
       if (res.ok) {
         setStatus('success')
@@ -483,6 +485,19 @@ export default function BookingForm() {
               onBlur={onBlur}
               placeholder="Any additional requests..."
               rows={2}
+            />
+          </Field>
+          <Field label="Your Age" error={errors.edad}>
+            <input
+              style={inputBase}
+              type="number"
+              min={1}
+              max={120}
+              value={data.edad}
+              onChange={set('edad')}
+              onFocus={onFocus}
+              onBlur={onBlur}
+              placeholder="Must be 21 or older"
             />
           </Field>
         </div>

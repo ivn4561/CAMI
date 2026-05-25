@@ -10,7 +10,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   const {
     nombre, email, telefono, fecha, hora,
-    direccion, tipoVenue, numHookahs, sabores, notas
+    direccion, tipoVenue, numHookahs, sabores, notas, edad
   } = req.body
 
   try {
@@ -36,6 +36,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
               ? sabores
               : sabores.split(',').map((s: string) => s.trim()).filter(Boolean),
             'Special Notes': notas,
+            'Edad': parseInt(edad),
             'Reservation Status': 'Pendiente'
           }
         })
@@ -141,12 +142,24 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
                 </tr>
                 <tr>
                   <td style="color:rgba(245,230,200,0.5);
-                             font-size:12px; padding:8px 0;">
+                             font-size:12px; padding:8px 0;
+                             border-bottom:1px solid rgba(201,160,82,0.1);">
                     FLAVORS
                   </td>
                   <td style="color:#F5E6C8; font-size:14px;
-                             padding:8px 0; text-align:right;">
+                             padding:8px 0; text-align:right;
+                             border-bottom:1px solid rgba(201,160,82,0.1);">
                     ${saboresStr}
+                  </td>
+                </tr>
+                <tr>
+                  <td style="color:rgba(245,230,200,0.5);
+                             font-size:12px; padding:8px 0;">
+                    AGE VERIFIED
+                  </td>
+                  <td style="color:#F5E6C8; font-size:14px;
+                             padding:8px 0; text-align:right;">
+                    ${edad} ✓
                   </td>
                 </tr>
               </table>
